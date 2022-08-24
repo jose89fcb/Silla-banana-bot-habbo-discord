@@ -1,7 +1,7 @@
 
 Comando para usar el bot:
 <br>
-!sillabanana .iroke.
+!sillabanana .iroke. es
 <br>
 <br>
 <br>

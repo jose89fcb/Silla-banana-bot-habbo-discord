@@ -9,21 +9,86 @@ import io
 from urllib import parse, request
 from PIL import Image, ImageDraw, ImageFont, ImageFile
 import time
+from discord_slash import SlashCommand
+from discord_slash.utils.manage_commands import create_choice, create_option
+from discord_slash import SlashCommand, SlashContext
 
 
 with open("configuracion.json") as f:
     config = json.load(f)
 
+intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', description="ayuda bot") #Comando
 bot.remove_command("help") # Borra el comando por defecto !help
 
-@bot.command()
-async def sillabanana(ctx,  keko1):
-    await ctx.message.delete()
-    await ctx.send("Generando Silla Banana 🍌", delete_after=0)
-    time.sleep(3)
+slash = SlashCommand(bot, sync_commands=True)
+@slash.slash(
+    name="sillabanana", description="Keko habbo Hotel",
+    options=[
+                create_option(
+                  name="keko1",
+                  description="Escribe el keko 1",
+                  option_type=3,
+                  required=True
+                ),
+                 create_option(
+                  name="hotel",
+                  description="Elige él hotel",
+                  option_type=3,
+                  required=True,
+                  choices=[
+                      create_choice(
+                          name="ES",
+                          value="es"
+                      ),
+                      create_choice(
+                          name="BR",
+                          value="com.br"
+                      ),
+                      create_choice(
+                          name="COM",
+                          value="com"
+                      ),
+                      create_choice(
+                          name="DE",
+                          value="de"
+                      ),
+                      create_choice(
+                          name="FR",
+                          value="fr"
+                      ),
+                      create_choice(
+                          name="FI",
+                          value="fi"
+                      ),
+                      create_choice(
+                          name="IT",
+                          value="it"
+                      ),
+                      create_choice(
+                          name="TR",
+                          value="com.tr"
+                      ),
+                      create_choice(
+                          name="NL",
+                          value="nl"
+                       )
+                  ]
+                
+               
+                  
+                )
+             ])
+
+
+async def _sillabanana(ctx:SlashContext, keko1:str,hotel:str):
+   
     
-    response = requests.get(f"https://www.habbo.es/api/public/users?name={keko1}")
+   
+    await ctx.defer()
+    
+    
+    response = requests.get(f"https://www.habbo.{hotel}/api/public/users?name={keko1}")
    
     
     habbo = response.json()['figureString']
